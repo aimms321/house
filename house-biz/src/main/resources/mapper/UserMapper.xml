@@ -6,7 +6,8 @@
       id, name, phone, email, aboutme, passwd, avatar, type, create_time, enable, angency_id
     </sql>
     <insert id="insertUser">
-        INSERT INTO user(id,name,email) VALUES (#{id},#{name},#{email})
+        INSERT INTO user(name,phone,email,aboutme,passwd,avatar,type,create_time,enable)
+        VALUES (#{name},#{phone},#{email},#{aboutme},#{passwd},#{avatar},#{type},#{enable},)
     </insert>
     <select id="selectUsers" resultType="com.project.house.common.model.User">
         select id,name,email from user

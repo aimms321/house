@@ -8,6 +8,8 @@ import com.project.house.common.utils.BeanHelper;
 import com.project.house.common.utils.HashUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class UserService {
         return userMapper.selectUsers();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public boolean addUser(User user) {
         user.setPasswd(HashUtils.encryPassword(user.getPasswd()));
         List<String> imgList = fileService.getImgPaths(Lists.newArrayList(user.getAvatarFile()));
@@ -33,5 +36,6 @@ public class UserService {
         BeanHelper.onInsert(user);
         user.setEnable(0);
         registerNotify(user.getEmail());
+        userMapper.insertUser(user);
     }
 }
