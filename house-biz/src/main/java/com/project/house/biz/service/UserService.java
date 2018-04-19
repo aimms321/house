@@ -1,0 +1,37 @@
+package com.project.house.biz.service;
+
+import com.google.common.collect.Lists;
+import com.project.house.biz.mapper.UserMapper;
+import com.project.house.common.model.User;
+
+import com.project.house.common.utils.BeanHelper;
+import com.project.house.common.utils.HashUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class UserService {
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private FileService fileService;
+
+    public List<User> getUsers() {
+        return userMapper.selectUsers();
+    }
+
+    public boolean addUser(User user) {
+        user.setPasswd(HashUtils.encryPassword(user.getPasswd()));
+        List<String> imgList = fileService.getImgPaths(Lists.newArrayList(user.getAvatarFile()));
+        if (!imgList.isEmpty()) {
+            user.setAvatar(imgList.get(0));
+        }
+        BeanHelper.setDefaultProp(user, User.class);
+        BeanHelper.onInsert(user);
+        user.setEnable(0);
+        registerNotify(user.getEmail());
+    }
+}
