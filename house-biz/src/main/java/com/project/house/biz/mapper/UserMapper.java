@@ -12,4 +12,6 @@ public interface UserMapper {
     public List<User> selectUsers();
 
     int insertUser(User user);
+
+    int deleteByEmail(String value);
 }
