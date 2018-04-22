@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 public class UserController {
+
     @Autowired
     private UserService userService;
 
@@ -24,8 +25,11 @@ public class UserController {
         if (user == null||bindingResult.hasErrors()) {
             return "user/accounts/register";
         }
-        boolean result = userService.addUser(user);
-
+        if (userService.addUser(user)) {
+            modelMap.put("email", user.getEmail());
+            return "/user/accounts/registerSubmit";
+        }
+        return "user/accounts/register";
 
     }
 

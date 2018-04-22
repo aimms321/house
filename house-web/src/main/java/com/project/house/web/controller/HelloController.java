@@ -47,8 +47,7 @@ public class HelloController {
             modelMap.put("errorList", errorList);
             return "validTest";
         }
-        int result = userService.addUser(user);
-        if (result > 0) {
+        if (userService.addUser(user)) {
             modelMap.put("user", user);
         }
         return "helloAdd";

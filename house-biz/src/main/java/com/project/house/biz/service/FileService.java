@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -14,9 +15,11 @@ import java.util.List;
 /**
  * Created by user on 2018-04-19.
  */
+
+@Service
 public class FileService {
 
-    @Value("${file.paths}")
+    @Value("${file.path}")
     private String filePath; //文件服务器存放路径
 
     public List<String> getImgPaths(List<MultipartFile> files) {
