@@ -28,7 +28,7 @@ public class FileService {
     @Autowired
     private ServletContext servletContext;
 
-    private String tempFilePath = servletContext.getRealPath("upload"); //文件临时存放路径
+    private String tempFilePath = "aaaa";//servletContext.getRealPath("upload"); 文件临时存放路径
 
 
 

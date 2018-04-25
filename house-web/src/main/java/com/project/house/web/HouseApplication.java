@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-@SpringBootApplication(scanBasePackages = {"com.project.house"})
+@SpringBootApplication(scanBasePackages = {"com.project.house.web","com.project.house.biz"})
 @MapperScan("com.project.house.*")
 //@EnableHttpClient
 @EnableAsync
