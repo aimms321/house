@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import javax.servlet.ServletContext;
 import java.util.List;
 
 
@@ -32,6 +33,7 @@ public class UserService {
 
 
 
+
     public List<User> getUsers() {
 
         return userMapper.selectUsers();
@@ -40,7 +42,7 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public boolean addUser(User user) {
         user.setPasswd(HashUtils.encryPassword(user.getPasswd()));
-        List<String> imgList = fileService.getImgPaths(Lists.newArrayList(user.getAvatarFile()));
+        List<String> imgList = fileService.uploadAndGetImgPaths(Lists.newArrayList(user.getAvatarFile()));
         if (!imgList.isEmpty()) {
             user.setAvatar(imgList.get(0));
         }
