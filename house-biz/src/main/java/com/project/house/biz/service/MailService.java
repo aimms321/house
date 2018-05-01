@@ -48,7 +48,7 @@ public class MailService {
     public void registerNotify(String email) {
         String randomKey = RandomStringUtils.randomAlphanumeric(10);
         registerCache.put(randomKey, email);
-        String url = domain + "accounts/verify?key=" + randomKey;
+        String url = domain + "/accounts/verify?key=" + randomKey;
         String title = "房产网激活邮件";
         sendMail(title, url, email);
     }

@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.ContextLoader;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
@@ -28,7 +29,7 @@ public class FileService {
     @Autowired
     private ServletContext servletContext;
 
-    private String tempFilePath = "aaaa";//servletContext.getRealPath("upload"); 文件临时存放路径
+    private String tempFilePath; //文件临时存放路径
 
 
 
@@ -50,6 +51,7 @@ public class FileService {
         if (ftpService.connect(ip, username, password, port)){
             List<File> fileList = Lists.newLinkedList();
             try {
+                tempFilePath = servletContext.getRealPath("upload");
                 fileList = saveToLocal(files, tempFilePath);
                 paths = ftpService.upload(fileList, serverFilePath);
             } catch (IOException e) {

@@ -6,8 +6,8 @@
       id, name, phone, email, aboutme, passwd, avatar, type, create_time, enable, angency_id
     </sql>
     <insert id="insertUser">
-        INSERT INTO user(name,phone,email,aboutme,passwd,avatar,type,create_time,enable)
-        VALUES (#{name},#{phone},#{email},#{aboutme},#{passwd},#{avatar},#{type},#{enable},)
+        INSERT INTO user(name,phone,email,aboutme,passwd,avatar,type,enable)
+        VALUES (#{name},#{phone},#{email},#{aboutme},#{passwd},#{avatar},#{type},#{enable})
     </insert>
     <delete id="deleteByEmail">
         DELETE from user WHERE email=#{email}

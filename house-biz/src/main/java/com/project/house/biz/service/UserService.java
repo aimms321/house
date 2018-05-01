@@ -51,7 +51,7 @@ public class UserService {
         user.setEnable(0);
         mailService.registerNotify(user.getEmail());
         userMapper.insertUser(user);
-        return false;
+        return true;
     }
 
 
