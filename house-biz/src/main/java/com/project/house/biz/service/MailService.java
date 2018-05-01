@@ -5,7 +5,10 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
 import com.project.house.biz.mapper.UserMapper;
+import com.project.house.common.model.User;
+import com.project.house.common.utils.BeanHelper;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -36,6 +39,7 @@ public class MailService {
 
     @Autowired
     private JavaMailSender mailSender;
+
     private final Cache<String, String> registerCache = CacheBuilder.newBuilder().maximumSize(100)
             .expireAfterWrite(15, TimeUnit.MINUTES).removalListener(new RemovalListener<String, String>() {
                 @Override
@@ -64,4 +68,15 @@ public class MailService {
     }
 
 
+    public boolean enable(String key) {
+        String email = registerCache.getIfPresent(key);
+        if (StringUtils.isBlank(email)) {
+            return false;
+        }
+        User user = new User();
+        user.setEnable(1);
+        BeanHelper.onUpdate(user);
+        registerCache.invalidate(key);
+        return true;
+    }
 }
