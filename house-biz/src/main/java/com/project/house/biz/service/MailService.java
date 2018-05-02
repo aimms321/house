@@ -16,6 +16,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -44,7 +45,14 @@ public class MailService {
             .expireAfterWrite(15, TimeUnit.MINUTES).removalListener(new RemovalListener<String, String>() {
                 @Override
                 public void onRemoval(RemovalNotification<String, String> removalNotification) {
-                    userMapper.deleteByEmail(removalNotification.getValue());
+                    String email = removalNotification.getValue();
+                    User user = new User();
+                    user.setEmail(email);
+                    List<User> userList = userMapper.selectUsersByQuery(user);
+                    if (!userList.isEmpty() && userList.get(0).getEnable() == 0) {
+                        userMapper.deleteByEmail(removalNotification.getValue());
+                    }
+
                 }
             }).build();
 
@@ -75,7 +83,9 @@ public class MailService {
         }
         User user = new User();
         user.setEnable(1);
+        user.setEmail(email);
         BeanHelper.onUpdate(user);
+        userMapper.updateUser(user);
         registerCache.invalidate(key);
         return true;
     }

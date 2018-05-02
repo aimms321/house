@@ -47,7 +47,7 @@ public class UserController {
     @RequestMapping("accounts/verify")
     public String verify(String key) {
         if (StringUtils.isEmpty(key)) {
-            return null;
+            return "user/accounts/register";
         }
         boolean result=mailService.enable(key);
         if (result) {
