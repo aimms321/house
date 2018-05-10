@@ -54,5 +54,15 @@ public class UserService {
         return true;
     }
 
-
+    public User auth(String username, String password) {
+        User user = new User();
+        user.setEmail(username);
+        user.setPasswd(HashUtils.encryPassword(password));
+        user.setEnable(1);
+        List<User> users = userMapper.selectUsersByQuery(user);
+        if (!users.isEmpty()) {
+            return users.get(0);
+        }
+        return null;
+    }
 }

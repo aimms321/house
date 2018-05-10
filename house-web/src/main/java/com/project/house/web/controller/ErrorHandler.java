@@ -1,5 +1,8 @@
 package com.project.house.web.controller;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
+import com.project.house.common.result.ResultMsg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
@@ -22,10 +25,11 @@ public class ErrorHandler {
     @ExceptionHandler(value={Exception.class})
     public String ValidHandler(HttpServletResponse servletResponse, BindingResult bindingResult) {
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+        List<String> errorMessageList = Lists.newLinkedList();
         for (FieldError fieldError : fieldErrors) {
-            System.out.println(fieldError.getDefaultMessage());
+            errorMessageList.add(fieldError.getDefaultMessage());
         }
-        return "helloAdd";
+        return "redirect:/user/accounts/register?"+ ResultMsg.errorMsg(Joiner.on(",").useForNull("").join(errorMessageList)).asUrlParams();
 
     }
 }

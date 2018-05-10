@@ -2,7 +2,10 @@ package com.project.house.web.controller;
 
 import com.project.house.biz.service.MailService;
 import com.project.house.biz.service.UserService;
+import com.project.house.common.constants.CommonConstants;
 import com.project.house.common.model.User;
+import com.project.house.common.result.ResultMsg;
+import com.project.house.common.utils.HashUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -55,5 +60,25 @@ public class UserController {
         } else {
             return "user/accounts/register";
         }
+    }
+
+    @RequestMapping("accounts/signin")
+    public String signin(HttpServletRequest request) {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String target = request.getParameter("target");
+        if (username == null || password == null) {
+            request.setAttribute("target", target);
+            return "user/accounts/signin";
+        }
+        User user = userService.auth(username, password);
+        if (user == null) {
+            return "redirect:/accounts/signin?" + "target=" + target + "&username=" + username + "&" + ResultMsg.errorMsg("用户名或密码错误").asUrlParams();
+        } else {
+            HttpSession session = request.getSession(true);
+            session.setAttribute(CommonConstants.USER_ATTRIBUTE, user);
+            return StringUtils.isNotBlank(target) ? "redirect"+target : "redirect:/index";
+        }
+
     }
 }

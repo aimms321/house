@@ -15,6 +15,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -66,6 +67,7 @@ public class MailService {
     }
 
     @Async
+    @Transactional(rollbackFor = Exception.class)
     public void sendMail(String title,String url,String email) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);

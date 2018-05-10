@@ -12,7 +12,7 @@ import java.util.Date;
 public class User {
 
     private Long id;
-
+    @Email
     private String email;
 
     private String phone;
@@ -38,7 +38,7 @@ public class User {
     private String key;
 
     private Long   agencyId;
-
+    @NotBlank
     private String aboutme;
 
     private String agencyName;
