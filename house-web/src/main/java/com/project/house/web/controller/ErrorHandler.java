@@ -29,7 +29,7 @@ public class ErrorHandler {
         for (FieldError fieldError : fieldErrors) {
             errorMessageList.add(fieldError.getDefaultMessage());
         }
-        return "redirect:/user/accounts/register?"+ ResultMsg.errorMsg(Joiner.on(",").useForNull("").join(errorMessageList)).asUrlParams();
+        return "redirect:/index?"+ ResultMsg.errorMsg(Joiner.on(",").useForNull("").join(errorMessageList)).asUrlParams();
 
     }
 }

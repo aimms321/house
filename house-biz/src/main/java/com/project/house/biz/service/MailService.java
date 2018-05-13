@@ -57,6 +57,9 @@ public class MailService {
                 }
             }).build();
 
+    private final Cache<String, String> resetCache = CacheBuilder
+            .newBuilder().expireAfterWrite(15, TimeUnit.MINUTES).maximumSize(100).build();
+
     @Async
     public void registerNotify(String email) {
         String randomKey = RandomStringUtils.randomAlphanumeric(10);
@@ -91,4 +94,16 @@ public class MailService {
         registerCache.invalidate(key);
         return true;
     }
+
+    public void resetNotify(String username) {
+        String randomKey = RandomStringUtils.randomAlphanumeric(10).toString();
+        resetCache.put(randomKey, username);
+        String url = domain + "/accounts/reset?resetKey=" + randomKey;
+        sendMail("房产网重置密码邮件", url, username);
+    }
+
+    public String findResetKey(String resetKey) {
+        return resetCache.getIfPresent(resetKey);
+    }
+
 }

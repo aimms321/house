@@ -56,7 +56,7 @@
                                 <h3>常用链接</h3>
                                 <ul class="list-unstyled list-links">
                                     <li><a href="/index">搜索房产</a></li>
-                                    <li><a href="/accounts/register">登录/注册</a></li>
+                                    <li><a href="/user/accounts/register">登录/注册</a></li>
                                     <li><a href="/blog/list">博客</a></li>
                                 </ul>
                             </article>
@@ -171,7 +171,7 @@
                           </#if>
                         <a href="/accounts/logout" class="promoted">退出</a>
                     <#else>
-                        <a href="/accounts/register" class="promoted"><strong>Register</strong></a>
+                        <a href="/user/accounts/register" class="promoted"><strong>Register</strong></a>
                         <a href="/accounts/signin">Sign In</a>
                     </#if>
                     </div>

@@ -65,4 +65,22 @@ public class UserService {
         }
         return null;
     }
+
+    public boolean checkIfUserExist(String email) {
+        User user = new User();
+        user.setEmail(email);
+        List<User> users = userMapper.selectUsersByQuery(user);
+        if (users.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+
+    public int updateUser(User user) {
+        BeanHelper.onUpdate(user);
+        return userMapper.updateUser(user);
+    }
 }
