@@ -58,7 +58,7 @@ public class UserController {
         if (StringUtils.isEmpty(key)) {
             return "user/accounts/register";
         }
-        boolean result=mailService.enable(key);
+        boolean result = mailService.enable(key);
         if (result) {
             return "homepage/index";
         } else {
@@ -77,7 +77,7 @@ public class UserController {
         }
         User user = userService.auth(username, password);
         if (user == null) {
-            return "redirect:" + "target=" + target + "&username=" + username +"&"+ResultMsg.errorMsg("用户名或密码错误").asUrlParams();
+            return "redirect:/accounts/signin?" + "target=" + target + "&username=" + username + "&" + ResultMsg.errorMsg("用户名或密码错误").asUrlParams();
         }
         HttpSession session = request.getSession(true);
         session.setAttribute(CommonConstants.USER_ATTRIBUTE, user);
@@ -95,7 +95,7 @@ public class UserController {
         HttpSession session = request.getSession(true);
         session.invalidate();
         if (StringUtils.isBlank(target)) {
-            return "redirect:/index?"+ResultMsg.successMsg("登出成功！").asUrlParams();
+            return "redirect:/index?" + ResultMsg.successMsg("登出成功！").asUrlParams();
         }
         return "redirect:" + target + "?" + ResultMsg.successMsg("登出成功！").asUrlParams();
     }
@@ -116,7 +116,7 @@ public class UserController {
     }
 
     @RequestMapping("accounts/reset")
-    public String reset(String resetKey,ModelMap modelMap) {
+    public String reset(String resetKey, ModelMap modelMap) {
         if (StringUtils.isEmpty(resetKey)) {
             return "user/accounts/login";
         }
@@ -142,10 +142,13 @@ public class UserController {
         if (result > 0) {
             return "redirect:/index?" + ResultMsg.successMsg("密码重置成功").asUrlParams();
         } else {
-            return"redirect:/index?" + ResultMsg.errorMsg("密码重置成功").asUrlParams();
+            return "redirect:/index?" + ResultMsg.errorMsg("密码重置成功").asUrlParams();
         }
 
     }
 
-
+    @RequestMapping("accounts/profile")
+    public String profile() {
+        return "user/accounts/profile";
+    }
 }
