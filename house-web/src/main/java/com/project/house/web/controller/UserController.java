@@ -3,11 +3,13 @@ package com.project.house.web.controller;
 import com.project.house.biz.service.MailService;
 import com.project.house.biz.service.UserService;
 import com.project.house.common.constants.CommonConstants;
+import com.project.house.common.dto.ProfileDto;
 import com.project.house.common.dto.ResetDto;
 import com.project.house.common.model.User;
 import com.project.house.common.result.ResultMsg;
 import com.project.house.common.utils.BeanHelper;
 import com.project.house.common.utils.HashUtils;
+import com.project.house.web.Interceptor.UserContext;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,7 +150,28 @@ public class UserController {
     }
 
     @RequestMapping("accounts/profile")
-    public String profile() {
-        return "user/accounts/profile";
+    public String profile(@Valid ProfileDto profileDto,HttpServletRequest request) {
+        if (profileDto.getEmail()==null) {
+            return "user/accounts/profile";
+        }
+        User user = UserContext.get();
+        if (user == null) {
+            return "/index";
+        }
+        String email = user.getEmail();
+        User updateUser = new User();
+        updateUser.setName(profileDto.getName());
+        updateUser.setPhone(profileDto.getPhone());
+        updateUser.setAboutme(profileDto.getAboutme());
+        updateUser.setEmail(email);
+        int result = userService.updateUser(updateUser);
+        if (result > 0) {
+            return "redirect:/accounts/profile?" +
+                    ResultMsg.successMsg("个人信息更新成功").asUrlParams();
+        } else {
+            return "redirect:/accounts/profile?" +
+                    ResultMsg.errorMsg("个人信息更新失败").asUrlParams();
+        }
+
     }
 }

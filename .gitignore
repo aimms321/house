@@ -22,3 +22,10 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+
+### Jrebel ###
+/src/main/resources/rebel.xml
+/house-biz/src/main/resources/rebel.xml
+/house-common/src/main/resources/rebel.xml
+/house-web/src/main/resources/rebel.xml
