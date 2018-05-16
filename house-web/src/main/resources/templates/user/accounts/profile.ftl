@@ -69,7 +69,7 @@
                                               
                                             </dl>
                                         </section>
-                                        <section id="about-me">N
+                                        <section id="about-me">
                                             <h3>About Me</h3>
                                             <div class="form-group">
                                                 <textarea class="form-control" id="form-contact-agent-message" rows="5" name="aboutme">${(loginUser.aboutme)!}</textarea>

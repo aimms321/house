@@ -3,6 +3,7 @@ package com.project.house.web.controller;
 import com.project.house.biz.service.MailService;
 import com.project.house.biz.service.UserService;
 import com.project.house.common.constants.CommonConstants;
+import com.project.house.common.dto.ChangePasswdDto;
 import com.project.house.common.dto.ProfileDto;
 import com.project.house.common.dto.ResetDto;
 import com.project.house.common.model.User;
@@ -166,6 +167,11 @@ public class UserController {
         updateUser.setEmail(email);
         int result = userService.updateUser(updateUser);
         if (result > 0) {
+            User query = new User();
+            user.setEmail(user.getEmail());
+            List<User> users = userService.selectUsersByQuery(user);
+            HttpSession session = request.getSession(true);
+            session.setAttribute(CommonConstants.USER_ATTRIBUTE,users.get(0));
             return "redirect:/accounts/profile?" +
                     ResultMsg.successMsg("个人信息更新成功").asUrlParams();
         } else {
@@ -173,5 +179,29 @@ public class UserController {
                     ResultMsg.errorMsg("个人信息更新失败").asUrlParams();
         }
 
+    }
+
+    @RequestMapping("/accounts/changePassword")
+    public String changePassword(@Valid ChangePasswdDto changePasswdDto,HttpServletRequest request) {
+        String target = request.getRequestURI().toString();
+        if (StringUtils.isBlank(changePasswdDto.getEmail())) {
+            return "redirect:/"+target;
+        }
+        String email = changePasswdDto.getEmail();
+        String password = changePasswdDto.getPassword();
+        String newPassword = changePasswdDto.getNewPassword();
+        User user = userService.auth(email,password);
+        if (user == null) {
+            return "redirect:/accounts/profile?"+ResultMsg.errorMsg("原密码错误").asUrlParams();
+        }
+        User newUser = new User();
+        newUser.setEmail(email);
+        newUser.setPasswd(HashUtils.encryPassword(newPassword));
+        int result = userService.updateUser(newUser);
+        if (result > 0) {
+            return "redirect:/accounts/profile?"+ResultMsg.successMsg("密码更新成功！").asUrlParams();
+        } else {
+            return "redirect:/accounts/profile?"+ ResultMsg.errorMsg("密码更新失败").asUrlParams();
+        }
     }
 }

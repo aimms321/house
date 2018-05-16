@@ -33,6 +33,7 @@ public class FileService {
 
 
 
+
     @Value("${file.server.path}")
     private String serverFilePath;//文件服务器路径
 

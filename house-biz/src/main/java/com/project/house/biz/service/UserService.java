@@ -10,6 +10,7 @@ import com.project.house.common.utils.HashUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,8 @@ public class UserService {
     @Autowired
     private MailService mailService;
 
+    @Value("${file.prefix}")
+    private String imgPrefix;
 
 
 
@@ -59,11 +62,19 @@ public class UserService {
         user.setEmail(username);
         user.setPasswd(HashUtils.encryPassword(password));
         user.setEnable(1);
-        List<User> users = userMapper.selectUsersByQuery(user);
+        List<User> users = selectUsersByQuery(user);
         if (!users.isEmpty()) {
             return users.get(0);
         }
         return null;
+    }
+
+    public List<User> selectUsersByQuery(User user) {
+        List<User> users = userMapper.selectUsersByQuery(user);
+        users.forEach(k->{
+            k.setAvatar(imgPrefix+k.getAvatar());
+        });
+        return users;
     }
 
     public boolean checkIfUserExist(String email) {

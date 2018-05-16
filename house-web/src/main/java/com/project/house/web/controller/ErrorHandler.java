@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.net.BindException;
 import java.util.List;
 
@@ -23,13 +25,13 @@ import java.util.List;
 public class ErrorHandler {
     private static final Logger logger = LoggerFactory.getLogger(ErrorHandler.class);
     @ExceptionHandler(value={Exception.class})
-    public String ValidHandler(HttpServletResponse servletResponse, BindingResult bindingResult) {
+    public String ValidHandler(HttpServletResponse servletResponse, BindingResult bindingResult, HttpServletRequest request) {
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         List<String> errorMessageList = Lists.newLinkedList();
         for (FieldError fieldError : fieldErrors) {
             errorMessageList.add(fieldError.getDefaultMessage());
         }
+        String target=request.getRequestURI().toString();
         return "redirect:/index?"+ ResultMsg.errorMsg(Joiner.on(",").useForNull("").join(errorMessageList)).asUrlParams();
-
     }
 }
