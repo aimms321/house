@@ -17,6 +17,8 @@ public class HouseController {
     @RequestMapping("house/list")
     public String houseList(Integer pageNum, Integer pageSize, ModelMap modelMap, House query) {
         houseService.queryHouse(query, PageParams.bulid(pageNum, pageSize));
+        return "house/listing";
     }
+
 
 }
