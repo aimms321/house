@@ -1,5 +1,6 @@
 package com.project.house.biz.mapper;
 
+import com.project.house.common.model.Community;
 import com.project.house.common.model.House;
 import com.project.house.common.page.PageParams;
 import org.apache.ibatis.annotations.Mapper;
@@ -11,4 +12,10 @@ import java.util.List;
 public interface HouseMapper {
 
     List<House> selectPageHouses(@Param("house") House query, @Param("pageParams") PageParams bulid);
+
+    Long selectPageCount(@Param("house") House query);
+
+    List<Community> selectCommunity(Community community);
+
+
 }

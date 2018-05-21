@@ -15,6 +15,7 @@ import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -55,6 +56,7 @@ public class UserController {
         return "user/accounts/register";
 
     }
+
 
     @RequestMapping("accounts/verify")
     public String verify(String key) {
