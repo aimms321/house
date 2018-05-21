@@ -22,6 +22,7 @@ public class HouseController {
         modelMap.put("ps", ps);
         System.out.println(ps);
         System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        System.out.println(ps.getPagination().getTotalCount());
         return "house/listing";
     }
 
