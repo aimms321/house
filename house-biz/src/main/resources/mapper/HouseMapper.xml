@@ -46,8 +46,23 @@
     </sql>
     <select id="selectPageHouses" resultType="com.project.house.common.model.House">
         SELECT <include refid="houseField"/> from house a
+        <include refid="houseCondition"/>
+        <choose>
+            <when test="house.sort!=null and house.sort=='price_asc'">
+                order by a.price asc
+            </when>
+            <when test="house.sort!=null and house.sort=='price_desc'">
+                order by a.price desc
+            </when>
+            <otherwise>
+                order by a.create_time desc
+            </otherwise>
+        </choose>
             <if test="pageParams.offset!=null and pageParams.limit!=null">
                 limit #{pageParams.offset},#{pageParams.limit}
+            </if>
+            <if test="pageParams.offset==null and pageParams.limit!=null">
+                limit #{pageParams.limit}
             </if>
     </select>
 

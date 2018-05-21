@@ -8,7 +8,7 @@
 <div class="wrapper">
     <!-- Navigation -->
    <@common.nav/><!-- /.navigation -->
-    <!-- end Navigation -->
+    <!-- end Navigation -->use
     <!-- Page Content -->
     <div id="page-content">
         <!-- Breadcrumb -->

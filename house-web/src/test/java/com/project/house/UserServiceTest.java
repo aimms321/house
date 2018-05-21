@@ -20,9 +20,9 @@ public class UserServiceTest {
 
     @Test
     public void testAuth() {
-//        User user = userService.auth("houseproject@163.com", "222222");
-//        assert user != null;
-        List<User> users = userService.getUsers();
-        assert !users.isEmpty();
+        User user = userService.auth("houseproject@163.com", "111111");
+        assert user != null;
+//        List<User> users = userService.getUsers();
+//        assert !users.isEmpty();
     }
 }
