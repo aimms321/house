@@ -1,6 +1,8 @@
 package com.project.house.common.model;
 
 
+import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -99,7 +101,9 @@ public class House {
     }
 
     public void setFirstImg(String firstImg) {
+
         this.firstImg = firstImg;
+
     }
 
     public String getPriceStr() {
@@ -236,6 +240,13 @@ public class House {
 
     public void setImages(String images) {
         this.images = images;
+        if (!Strings.isNullOrEmpty(images)) {
+            List<String> imageList = Splitter.on(",").splitToList(images);
+            if (imageList.size() > 0) {
+                this.firstImg = imageList.get(0);
+                this.imageList = imageList;
+            }
+        }
     }
 
     public Long getArea() {

@@ -14,34 +14,35 @@ public class Community {
     //小区名称
     private  String name;
 
-
-    public  Long  getId(){
-        return  this.id;
-    };
-    public  void  setId(Long id){
-        this.id=id;
+    public Long getId() {
+        return id;
     }
 
-    public  String  getCityCode(){
-        return  this.cityCode;
-    };
-    public  void  setCityCode(String cityCode){
-        this.cityCode=cityCode;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public  String  getCityName(){
-        return  this.cityName;
-    };
-    public  void  setCityName(String cityName){
-        this.cityName=cityName;
+    public String getCityCode() {
+        return cityCode;
     }
 
-    public  String  getName(){
-        return  this.name;
-    };
-    public  void  setName(String name){
-        this.name=name;
+    public void setCityCode(String cityCode) {
+        this.cityCode = cityCode;
     }
 
+    public String getCityName() {
+        return cityName;
+    }
 
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

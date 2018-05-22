@@ -73,10 +73,10 @@
         select *
         from community
         WHERE
-        <if test="community.id!=null and community.id!=0">
+        <if test="id!=null and id!=0">
             id=#{id}
         </if>
-        <if test="community.name!=null and community.name!=''">
+        <if test="name!=null and name!=''">
             name=#{name}
         </if>
     </select>
