@@ -4,6 +4,35 @@
 <@common.header/>
 
 <body class="page-sub-page page-listing-lines page-search-results" id="page-top">
+
+<@common.js/>
+<script  type="text/javascript" >
+
+
+    $(document).ready(function() {
+        var errorMsg   = "${errorMsg!""}";
+        var successMsg = "${successMsg!""}";
+        if(errorMsg){
+            errormsg("error",errorMsg);
+        }
+        if(successMsg) {
+            successmsg("success",successMsg);
+        }
+    })
+</script>
+
+
+<script  type="text/javascript" >
+    $('#sorting').change(function() {
+        var type =  $(this).val();
+        if (!type) {
+            return;
+        }
+        window.location.href=  "/house/list?sort="+type+"&name=" + "${(vo.name)!}" + "&type=" + "${(vo.type)!0}" ;
+    });
+
+
+</script>
 <!-- Wrapper -->
 <div class="wrapper">
     <!-- Navigation -->
@@ -146,37 +175,11 @@
     <!-- end Page Footer -->
 </div>
 
-<@common.js/>
+
 <!--[if gt IE 8]>
 <script type="text/javascript" src="assets/js/ie.js"></script>
 <![endif]-->
- <script  type="text/javascript" >
-     
 
-     $(document).ready(function() {
-          var errorMsg   = "${errorMsg!""}";
-          var successMsg = "${successMsg!""}";
-          if(errorMsg){ 
-              errormsg("error",errorMsg);
-          }
-          if(successMsg) {
-              successmsg("success",successMsg);
-          }
-        })
-      
-      
-  
-     
-      $('#sorting').change(function() {
-           var type =  $(this).val();
-           if (!type) {
-               return;
-           }
-           window.location.href=  "/house/list?sort="+type+"&name=" + "${(vo.name)!}" + "&type=" + "${(vo.type)!0}" ;
-       });
-
-        
- </script>
 
 </body>
 </html>

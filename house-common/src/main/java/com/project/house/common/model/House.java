@@ -6,11 +6,14 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class House {
 
     //主键id
+    @NotNull
     private Long id;
 
     //房产名称

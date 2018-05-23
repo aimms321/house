@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
+
 @Controller
 public class HouseController {
 
@@ -23,5 +25,13 @@ public class HouseController {
         return "house/listing";
     }
 
+
+    public String houseDetail(@Valid Long id, ModelMap modelMap) {
+        House house = houseService.queryOneHouse(id);
+        if (house.getId() != null && !house.getId().equals(0)) {
+
+        }
+
+    }
 
 }

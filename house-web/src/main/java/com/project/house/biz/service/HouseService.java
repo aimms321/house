@@ -52,4 +52,15 @@ public class HouseService {
         });
         return houses;
     }
+
+    public House queryOneHouse(Long id) {
+        House house = new House();
+        house.setId(id);
+        List<House> houses = queryAndSetImg(house, PageParams.bulid(1, 1));
+        if (!houses.isEmpty()) {
+            return houses.get(0);
+        }
+        return null;
+    }
+
 }
