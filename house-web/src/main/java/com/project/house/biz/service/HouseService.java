@@ -7,7 +7,6 @@ import com.project.house.common.model.Community;
 import com.project.house.common.model.House;
 import com.project.house.common.page.PageData;
 import com.project.house.common.page.PageParams;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,10 @@ import java.util.stream.Collectors;
 public class HouseService {
 
     @Value("${file.prefix}")
-    private String imgPrefix;
+    private String fileServerDomain;
+
+    @Value("${file.server.path}")
+    private String filePath;
 
     @Autowired
     private HouseMapper houseMapper;
@@ -44,9 +46,9 @@ public class HouseService {
     public List<House> queryAndSetImg(House query, PageParams pageParams) {
         List<House> houses = houseMapper.selectPageHouses(query, pageParams);
         houses.forEach(k->{
-            k.setFirstImg(imgPrefix+k.getFirstImg());
-            k.setImageList(k.getImageList().stream().map(img -> imgPrefix + img).collect(Collectors.toList()));
-            k.setFloorPlanList(k.getFloorPlanList().stream().map(img -> imgPrefix + img).collect(Collectors.toList()));
+            k.setFirstImg(fileServerDomain+filePath +k.getFirstImg());
+            k.setImageList(k.getImageList().stream().map(img -> fileServerDomain +filePath+ img).collect(Collectors.toList()));
+            k.setFloorPlanList(k.getFloorPlanList().stream().map(img -> fileServerDomain +filePath+ img).collect(Collectors.toList()));
         });
         return houses;
     }
