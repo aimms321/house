@@ -80,6 +80,12 @@
             name=#{name}
         </if>
     </select>
+    <select id="selectHouseUser" resultType="com.project.house.common.model.HouseUser">
+        select * FROM
+        house_user
+        WHERE
+        house_id=#{id}
+    </select>
 
 
 </mapper>

@@ -2,6 +2,7 @@ package com.project.house.biz.mapper;
 
 import com.project.house.common.model.Community;
 import com.project.house.common.model.House;
+import com.project.house.common.model.HouseUser;
 import com.project.house.common.page.PageParams;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,4 +19,5 @@ public interface HouseMapper {
     List<Community> selectCommunity(Community community);
 
 
+    HouseUser selectHouseUser(Long id);
 }
