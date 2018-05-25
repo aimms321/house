@@ -3,7 +3,6 @@ package com.project.house.biz.service;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.project.house.biz.mapper.HouseMapper;
-import com.project.house.common.constants.HouseUserType;
 import com.project.house.common.model.Community;
 import com.project.house.common.model.House;
 import com.project.house.common.model.HouseUser;
@@ -66,6 +65,6 @@ public class HouseService {
     }
 
     public HouseUser getHouseUser(Long id) {
-        return houseMapper.selectHouseUser(id);
+        return houseMapper.selectSaleHouseUser(id);
     }
 }

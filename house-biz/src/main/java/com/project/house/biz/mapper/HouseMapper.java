@@ -19,5 +19,5 @@ public interface HouseMapper {
     List<Community> selectCommunity(Community community);
 
 
-    HouseUser selectHouseUser(Long id);
+    HouseUser selectSaleHouseUser(Long id);
 }

@@ -5,7 +5,7 @@
 
     <select id="selectAgent" resultType="com.project.house.common.model.User">
         SELECT * FROM
-        "user"
+        user
         <where>
 
             enable=1 and type=2
@@ -20,7 +20,7 @@
         <if test="pageParams.offset != null and pageParams.limit != null">
             limit #{pageParams.offset},#{pageParams.limit}
         </if>
-        <if test="pageParams.limit != null">
+        <if test="pageParams.offset==null and pageParams.limit != null">
             limit #{pageParams.limit}
         </if>
     </select>

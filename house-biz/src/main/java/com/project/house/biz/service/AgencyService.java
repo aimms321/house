@@ -5,6 +5,7 @@ import com.project.house.biz.mapper.UserMapper;
 import com.project.house.common.model.Agency;
 import com.project.house.common.model.User;
 import com.project.house.common.page.PageParams;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class AgencyService {
     @Value("${file.server.path}")
     private String filePath;
 
+    @Autowired
     private AgencyMapper agencyMapper;
 
     public User getAgentDetail(Long userId) {

@@ -80,11 +80,11 @@
             name=#{name}
         </if>
     </select>
-    <select id="selectHouseUser" resultType="com.project.house.common.model.HouseUser">
+    <select id="selectSaleHouseUser" resultType="com.project.house.common.model.HouseUser">
         select * FROM
         house_user
         WHERE
-        house_id=#{id}
+        house_id=#{id} and type=1
     </select>
 
 
