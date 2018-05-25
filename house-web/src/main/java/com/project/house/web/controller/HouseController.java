@@ -36,6 +36,7 @@ public class HouseController {
     }
 
 
+    @RequestMapping("house/detail")
     public String houseDetail(@Valid Long id, ModelMap modelMap) {
         House house = houseService.queryOneHouse(id);
         if (house.getId() != null && !house.getId().equals(0)) {
