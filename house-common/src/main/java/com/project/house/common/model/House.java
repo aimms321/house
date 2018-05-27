@@ -79,13 +79,23 @@ public class House {
 
     private List<String> floorPlanList = Lists.newArrayList();
 
+    private List<String> featureList   = Lists.newArrayList();
+
+    public List<String> getFeatureList() {
+        return featureList;
+    }
+
+    public void setFeatureList(List<String> featureList) {
+        this.featureList = featureList;
+    }
+
     private List<MultipartFile> houseFiles;
 
     private List<MultipartFile> floorPlanFiles;
 
     private Boolean bookMarked;
 
-    private String sort = "time_desc";
+    private String sort= "time_desc";
 
     private Long userId;
 
@@ -309,17 +319,21 @@ public class House {
     ;
 
     public void setProperties(String properties) {
+
         this.properties = properties;
+        this.featureList = Splitter.on(",").splitToList(properties);
     }
 
     public String getFloorPlan() {
         return this.floorPlan;
     }
 
-    ;
 
     public void setFloorPlan(String floorPlan) {
         this.floorPlan = floorPlan;
+        if (!Strings.isNullOrEmpty(floorPlan)) {
+            this.floorPlanList = Splitter.on(",").splitToList(floorPlan);
+        }
     }
 
     public String getTags() {

@@ -3,11 +3,10 @@ package com.project.house.biz.service;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.project.house.biz.mapper.HouseMapper;
-import com.project.house.common.model.Community;
-import com.project.house.common.model.House;
-import com.project.house.common.model.HouseUser;
+import com.project.house.common.model.*;
 import com.project.house.common.page.PageData;
 import com.project.house.common.page.PageParams;
+import com.project.house.common.utils.BeanHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,6 +26,11 @@ public class HouseService {
     @Autowired
     private HouseMapper houseMapper;
 
+    @Autowired
+    private AgencyService agencyService;
+
+    @Autowired
+    private MailService mailService;
 
 
     public PageData<House> queryHouse(House query, PageParams pageParams) {
@@ -66,5 +70,12 @@ public class HouseService {
 
     public HouseUser getHouseUser(Long id) {
         return houseMapper.selectSaleHouseUser(id);
+    }
+
+    public void addUserMsg(UserMsg userMsg) {
+        BeanHelper.onInsert(userMsg);
+        houseMapper.insertUserMsg(userMsg);
+        User user = agencyService.getAgentDetail(userMsg.getAgentId());
+        mailService.sendMail("来自用户"+userMsg.getEmail()+"的邮件",userMsg.getMsg(),user.getEmail());
     }
 }

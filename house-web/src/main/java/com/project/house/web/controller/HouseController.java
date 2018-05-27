@@ -1,19 +1,20 @@
 package com.project.house.web.controller;
 
 import com.project.house.biz.service.AgencyService;
+import com.project.house.biz.service.CommentService;
 import com.project.house.biz.service.HouseService;
 import com.project.house.biz.service.UserService;
-import com.project.house.common.model.House;
-import com.project.house.common.model.HouseUser;
-import com.project.house.common.model.User;
+import com.project.house.common.model.*;
 import com.project.house.common.page.PageData;
 import com.project.house.common.page.PageParams;
+import com.project.house.common.result.ResultMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class HouseController {
@@ -27,6 +28,9 @@ public class HouseController {
     @Autowired
     private AgencyService agencyService;
 
+    @Autowired
+    private CommentService commentService;
+
     @RequestMapping("house/list")
     public String houseList(Integer pageNum, Integer pageSize, ModelMap modelMap, House query) {
         PageData<House> ps = houseService.queryHouse(query, PageParams.bulid(pageNum, pageSize));
@@ -37,7 +41,7 @@ public class HouseController {
 
 
     @RequestMapping("house/detail")
-    public String houseDetail(@Valid Long id, ModelMap modelMap) {
+    public String houseDetail(long id, ModelMap modelMap) {
         House house = houseService.queryOneHouse(id);
         if (house.getId() != null && !house.getId().equals(0)) {
             HouseUser houseUser = houseService.getHouseUser(id);
@@ -45,8 +49,17 @@ public class HouseController {
             modelMap.put("agent", agent);
         }
         modelMap.put("house", house);
+        List<Comment> commentList = commentService.getHouseComment(id,8);
+        modelMap.put("commentList", commentList);
+
 
         return "house/detail";
+    }
+
+    @RequestMapping("house/leaveMsg")
+    public String leaveMsg(UserMsg userMsg) {
+        houseService.addUserMsg(userMsg);
+        return "redirect:/house/detail?id="+userMsg.getHouseId()+ ResultMsg.successMsg("邮件发送成功").asUrlParams();
     }
 
 }

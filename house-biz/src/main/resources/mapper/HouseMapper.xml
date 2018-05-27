@@ -44,6 +44,11 @@
             </if>
         </where>
     </sql>
+    <insert id="insertUserMsg">
+        insert into
+        house_msg (msg,create_time,agent_id,house_id,user_name)
+        values(#{msg},#{createTime},#{agentId},#{houseId},#{userName})
+    </insert>
     <select id="selectPageHouses" resultType="com.project.house.common.model.House">
         SELECT <include refid="houseField"/> from house a
         <include refid="houseCondition"/>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.house.biz.mapper.CommentMapper">
+
+
+    <insert id="insert">
+        insert into comment
+        (content, house_id, create_time, blog_id, type, user_id) VALUES
+        (#{content},#{houseId},#{createTime},#{blogId},#{type},#{userId})
+    </insert>
+    <select id="selectComments" resultType="com.project.house.common.model.Comment">
+        select * from comment
+        where type=1 and house_id=#{id}
+        order by create_time desc
+        limit #{size}
+    </select>
+</mapper>
