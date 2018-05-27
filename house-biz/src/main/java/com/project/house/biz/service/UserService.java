@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import javax.servlet.ServletContext;
 import java.util.List;
 
 
@@ -33,8 +32,10 @@ public class UserService {
     private MailService mailService;
 
     @Value("${file.prefix}")
-    private String imgPrefix;
+    private String fileServerDomain;
 
+    @Value("${file.server.path}")
+    private String filePath;
 
 
     public List<User> getUsers() {
@@ -72,7 +73,7 @@ public class UserService {
     public List<User> selectUsersByQuery(User user) {
         List<User> users = userMapper.selectUsersByQuery(user);
         users.forEach(k->{
-            k.setAvatar(imgPrefix+k.getAvatar());
+            k.setAvatar(fileServerDomain +filePath+k.getAvatar());
         });
         return users;
     }

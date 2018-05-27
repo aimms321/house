@@ -24,6 +24,7 @@ public class CommentController {
         User user = UserContext.get();
         comment.setUserId(user.getId());
         comment.setHouseId(comment.getHouseId());
+        comment.setType(1);
         int result = commentService.addHouseComment(comment);
         if (result > 0) {
             return "redirect:/house/detail?id="+comment.getHouseId()+"&"+ ResultMsg.successMsg("评论成功！").asUrlParams();

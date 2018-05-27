@@ -37,7 +37,7 @@ public class User {
 
     private String key;
 
-    private Long   agencyId;
+    private Long  agencyId;
     @NotBlank
     private String aboutme;
 
