@@ -35,4 +35,16 @@
             </if>
         </where>
     </select>
+    <select id="selectAgentCount" resultType="java.lang.Long">
+        select count(id) from user
+        <where>
+            enable=1 and type=2
+            <if test="id != null and id != 0">
+                and id=#{id}
+            </if>
+            <if test="name !=null and name != ''">
+                and email=#{email}
+            </if>
+        </where>
+    </select>
 </mapper>

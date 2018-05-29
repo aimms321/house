@@ -14,5 +14,7 @@ public interface AgencyMapper {
     List<User> selectAgent(@Param("user") User user, @Param("pageParams") PageParams bulid);
 
     List<Agency> select(Agency agency);
+
+    Long selectAgentCount(User user);
 }
 

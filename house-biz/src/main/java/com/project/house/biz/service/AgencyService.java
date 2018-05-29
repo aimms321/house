@@ -4,6 +4,7 @@ import com.project.house.biz.mapper.AgencyMapper;
 import com.project.house.biz.mapper.UserMapper;
 import com.project.house.common.model.Agency;
 import com.project.house.common.model.User;
+import com.project.house.common.page.PageData;
 import com.project.house.common.page.PageParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,4 +56,14 @@ public class AgencyService {
     }
 
 
+    public PageData<User> getAllAgent(Integer pageNum, Integer pageSize) {
+        User user = new User();
+        user.setType(2);
+        List<User> userList = agencyMapper.selectAgent(user, PageParams.bulid(pageNum, pageSize));
+        Long count = agencyMapper.selectAgentCount(user);
+        if (!userList.isEmpty()) {
+            return PageData.build(userList, pageNum, pageSize, count);
+        }
+        return null;
+    }
 }
