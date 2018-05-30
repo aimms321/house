@@ -59,10 +59,11 @@ public class AgencyService {
     public PageData<User> getAllAgent(Integer pageNum, Integer pageSize) {
         User user = new User();
         user.setType(2);
-        List<User> userList = agencyMapper.selectAgent(user, PageParams.bulid(pageNum, pageSize));
+        PageParams pageParams = PageParams.bulid(pageNum, pageSize);
+        List<User> userList = agencyMapper.selectAgent(user, pageParams);
         Long count = agencyMapper.selectAgentCount(user);
         if (!userList.isEmpty()) {
-            return PageData.build(userList, pageNum, pageSize, count);
+            return PageData.build(userList, pageParams.getPageNum(), pageParams.getPageSize(), count);
         }
         return null;
     }

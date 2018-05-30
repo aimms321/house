@@ -1,9 +1,7 @@
 package com.project.house.web.controller;
 
-import com.project.house.biz.service.AgencyService;
-import com.project.house.biz.service.CommentService;
-import com.project.house.biz.service.HouseService;
-import com.project.house.biz.service.UserService;
+import com.project.house.biz.service.*;
+import com.project.house.common.constants.CommonConstants;
 import com.project.house.common.model.*;
 import com.project.house.common.page.PageData;
 import com.project.house.common.page.PageParams;
@@ -31,9 +29,14 @@ public class HouseController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private RecommendService recommendService;
+
     @RequestMapping("house/list")
     public String houseList(Integer pageNum, Integer pageSize, ModelMap modelMap, House query) {
         PageData<House> ps = houseService.queryHouse(query, PageParams.bulid(pageNum, pageSize));
+        List<House> recomHouses = recommendService.getHotHouse(CommonConstants.RECOM_SIZE);
+        modelMap.put("recomHouses", recomHouses);
         modelMap.put("vo", query);
         modelMap.put("ps", ps);
         return "house/listing";
@@ -48,6 +51,8 @@ public class HouseController {
             User agent = agencyService.getAgentDetail(houseUser.getUserId());
             modelMap.put("agent", agent);
         }
+        List<House> recomHouses = recommendService.getHotHouse(CommonConstants.RECOM_SIZE);
+        modelMap.put("recomHouses", recomHouses);
         modelMap.put("house", house);
         List<Comment> commentList = commentService.getHouseComment(id,8);
         modelMap.put("commentList", commentList);

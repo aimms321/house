@@ -27,7 +27,7 @@ public class AgencyController {
         }
         PageData<User> ps = agencyService.getAllAgent(pageNum, pageSize);
         modelMap.put("ps", ps);
-        return "user/agency/agentList";
+        return "user/agent/agentList";
     }
 
 
@@ -42,10 +42,11 @@ public class AgencyController {
         query.setBookMarked(false);
         PageData<House> bindHouses = houseService.queryHouse(query, PageParams.bulid(1, 3));
         if (bindHouses != null) {
-            modelMap.put("bindHouses", bindHouses);
+            modelMap.put("bindHouses", bindHouses.getList());
         }
+        modelMap.put("bindHouses", bindHouses.getList());
         modelMap.put("vo", vo);
-        return "/user/agency/agentDetail";
+        return "user/agent/agentDetail";
 
     }
 
