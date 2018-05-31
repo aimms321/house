@@ -45,13 +45,12 @@ public class RecommendService {
 
     public List<House> getHotHouse(Integer size) {
         House query = new House();
-//        List<Long> list = getHot();
-//        list.subList(0, Math.min(size, list.size()));
-//        if (list.isEmpty()) {
-//            return Lists.newArrayList();
-//        }
-//        query.setIds(list);
-
+        List<Long> list = getHot();
+        list = list.subList(0, Math.min(size, list.size()));
+        if (list.isEmpty()) {
+            return Lists.newArrayList();
+        }
+        query.setIds(list);
         return houseService.queryHouse(query, PageParams.bulid(1, size)).getList();
     }
 }

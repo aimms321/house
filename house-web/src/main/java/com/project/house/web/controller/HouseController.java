@@ -48,6 +48,7 @@ public class HouseController {
         House house = houseService.queryOneHouse(id);
         if (house.getId() != null && !house.getId().equals(0)) {
             HouseUser houseUser = houseService.getHouseUser(id);
+            recommendService.increase(id);
             User agent = agencyService.getAgentDetail(houseUser.getUserId());
             modelMap.put("agent", agent);
         }
