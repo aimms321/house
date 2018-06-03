@@ -30,7 +30,7 @@
                     <aside>
                         <ul class="sidebar-navigation">
                             <li class="active"><a href="/accounts/profile"><i class="fa fa-user"></i><span>个人信息</span></a></li>
-                            <li><a href="/house/ownlist"><i class="fa fa-home"></i><span>我的房产信息</span></a></li>
+                            <li><a href="/house/ownList"><i class="fa fa-home"></i><span>我的房产信息</span></a></li>
                             <li><a href="/house/bookmarked"><i class="fa fa-heart"></i><span>房产收藏</span></a></li>
                         </ul>
                     </aside>

@@ -1,12 +1,16 @@
 package com.project.house.biz.service;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.project.house.biz.mapper.HouseMapper;
+import com.project.house.common.constants.CommonConstants;
+import com.project.house.common.constants.HouseUserType;
 import com.project.house.common.model.*;
 import com.project.house.common.page.PageData;
 import com.project.house.common.page.PageParams;
 import com.project.house.common.utils.BeanHelper;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,6 +35,9 @@ public class HouseService {
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private FileService fileService;
 
 
     public PageData<House> queryHouse(House query, PageParams pageParams) {
@@ -77,5 +84,56 @@ public class HouseService {
         houseMapper.insertUserMsg(userMsg);
         User user = agencyService.getAgentDetail(userMsg.getAgentId());
         mailService.sendMail("来自用户"+userMsg.getEmail()+"的邮件",userMsg.getMsg(),user.getEmail());
+    }
+
+    public List<Community> getAllCommunity() {
+        Community community = new Community();
+        return houseMapper.selectCommunity(community);
+    }
+
+    public Integer addHouse(House house) {
+        house.setState(CommonConstants.HOUSE_STATE_UP);
+        if (CollectionUtils.isNotEmpty(house.getHouseFiles())) {
+            String images = Joiner.on(",").join(fileService.uploadAndGetImgPaths(house.getHouseFiles()));
+            house.setImages(images);
+        }
+        if (CollectionUtils.isNotEmpty(house.getFloorPlanFiles())) {
+            String images = Joiner.on(",").join(fileService.uploadAndGetImgPaths(house.getFloorPlanFiles()));
+            house.setImages(images);
+        }
+        BeanHelper.onInsert(house);
+        int result = houseMapper.insertHouse(house);
+        Integer bindResult = bindUserToHouse(house.getUserId(), house.getId(), false);
+        return bindResult;
+    }
+
+    public Integer bindUserToHouse(Long userId, Long houseId,boolean collect) {
+        HouseUser houseUser = new HouseUser();
+        houseUser.setHouseId(houseId);
+        houseUser.setUserId(userId);
+        houseUser.setType(collect? HouseUserType.BOOKMARK.value:HouseUserType.SALE.value);
+        BeanHelper.onInsert(houseUser);
+        int result = houseMapper.insertHouseUser(houseUser);
+        return result;
+    }
+
+    public Integer updateRating(Double rating, Long id) {
+        House query = queryOneHouse(id);
+        Double oldRating = query.getRating();
+        query.setRating(oldRating.equals(0D)?rating:Math.min(5,(query.getRating()+rating)/2));
+        BeanHelper.onUpdate(query);
+        return houseMapper.updateHouse(query);
+
+    }
+
+    public Integer unbindUserToHouse(Long userId, Long houseId, boolean collect) {
+        HouseUser houseUser = new HouseUser();
+        houseUser.setHouseId(houseId);
+        houseUser.setUserId(userId);
+        houseUser.setType(collect? HouseUserType.BOOKMARK.value:HouseUserType.SALE.value);
+        BeanHelper.onInsert(houseUser);
+        int result = houseMapper.deleteHouseUser(houseUser);
+        return result;
+
     }
 }

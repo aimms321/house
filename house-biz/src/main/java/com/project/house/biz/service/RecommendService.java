@@ -1,6 +1,7 @@
 package com.project.house.biz.service;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.project.house.common.model.House;
 import com.project.house.common.page.PageData;
 import com.project.house.common.page.PageParams;
@@ -38,7 +39,7 @@ public class RecommendService {
     public List<Long> getHot() {
         Jedis jedis = new Jedis(server);
         jedis.auth(password);
-        Set<String> idSet = jedis.zrange(HOT_HOUSE_KEY, 0, -1);
+        Set<String> idSet = jedis.zrevrange(HOT_HOUSE_KEY, 0, -1);
         List<Long> ids = idSet.stream().map(Long::parseLong).collect(Collectors.toList());
         return ids;
     }
@@ -51,6 +52,18 @@ public class RecommendService {
             return Lists.newArrayList();
         }
         query.setIds(list);
-        return houseService.queryHouse(query, PageParams.bulid(1, size)).getList();
+        List<House> houseList = houseService.queryHouse(query, PageParams.bulid(1, size)).getList();
+        final List<Long> order = list;
+        Ordering<House> houseSort=Ordering.natural().onResultOf(hs-> {
+             return order.indexOf(hs.getId());
+        });
+        return houseSort.sortedCopy(houseList);
+    }
+
+    public List<House> getLastest() {
+        House query = new House();
+        query.setSort("time_desc");
+        return houseService.queryHouse(query, PageParams.bulid(1, 8)).getList();
+
     }
 }

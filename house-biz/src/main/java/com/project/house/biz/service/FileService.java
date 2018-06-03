@@ -55,6 +55,9 @@ public class FileService {
                 tempFilePath = servletContext.getRealPath("upload");
                 fileList = saveToLocal(files, tempFilePath);
                 paths = ftpService.upload(fileList, serverFilePath);
+                fileList.forEach(k->{
+                    k.delete();
+                });
             } catch (IOException e) {
                 e.printStackTrace();
             }

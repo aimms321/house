@@ -19,8 +19,15 @@ public interface HouseMapper {
 
     List<Community> selectCommunity(Community community);
 
-
     HouseUser selectSaleHouseUser(Long id);
 
     int insertUserMsg(UserMsg userMsg);
+
+    int insertHouse(House house);
+
+    int insertHouseUser(HouseUser houseUser);
+
+    int updateHouse(House query);
+
+    int deleteHouseUser(HouseUser houseUser);
 }

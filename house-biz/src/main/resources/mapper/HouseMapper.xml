@@ -25,7 +25,22 @@
     </sql>
 
     <sql id="houseCondition">
+        <if test="house.userId!=null and house.userId!=0">
+            INNER JOIN (SELECT house_id,user_id from house_user
+            <where>
+                user_id=#{house.userId}
+                <if test="house.bookMarked!=null and house.bookMarked==false">
+                    and type=1
+                </if>
+                <if test="house.bookMarked!=null and house.bookMarked==true">
+                    and type=2
+                </if>
+            </where>
+            ) b
+            on a.id=b.house_id
+        </if>
         <where>
+            state=1
             <if test="house.id!=null and house.id!=0">
                 and a.id=#{house.id}
             </if>
@@ -49,6 +64,47 @@
         house_msg (msg,create_time,agent_id,house_id,user_name)
         values(#{msg},#{createTime},#{agentId},#{houseId},#{userName})
     </insert>
+    <insert id="insertHouse" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO house
+        (name,type,price,images,area,beds,baths,rating,remarks,properties,floor_plan,tags,create_time,city_id,community_id,address,state)
+        VALUES
+        (
+                     #{name},
+                     #{type},
+                     #{price},
+                     #{images},
+                     #{area},
+                     #{beds},
+                     #{baths},
+                     #{rating},
+                     #{remarks},
+                     #{properties},
+                     #{floorPlan},
+                     #{tags},
+                     #{createTime},
+                     #{cityId},
+                     #{communityId},
+                     #{address},
+                     #{state}
+                     )
+
+    </insert>
+    <insert id="insertHouseUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO house_user
+        (house_id, user_id, create_time, type) VALUES
+        (#{houseId},#{userId},#{createTime},#{type}
+        )
+
+    </insert>
+    <update id="updateHouse">
+        UPDATE house
+        SET rating=#{rating}
+        where id=#{id}
+    </update>
+    <delete id="deleteHouseUser">
+        DELETE FROM house_user
+        WHERE house_id=#{id} and user_id=#{userId}
+    </delete>
     <select id="selectPageHouses" resultType="com.project.house.common.model.House">
         SELECT <include refid="houseField"/> from house a
         <include refid="houseCondition"/>
@@ -77,13 +133,14 @@
     <select id="selectCommunity" resultType="com.project.house.common.model.Community">
         select *
         from community
-        WHERE
-        <if test="id!=null and id!=0">
-            id=#{id}
-        </if>
-        <if test="name!=null and name!=''">
-            name=#{name}
-        </if>
+        <where>
+            <if test="id!=null and id!=0">
+                id=#{id}
+            </if>
+            <if test="name!=null and name!=''">
+                name=#{name}
+            </if>
+        </where>
     </select>
     <select id="selectSaleHouseUser" resultType="com.project.house.common.model.HouseUser">
         select * FROM

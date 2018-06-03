@@ -2,6 +2,7 @@ package com.project.house.web.controller;
 
 import com.project.house.biz.service.AgencyService;
 import com.project.house.biz.service.HouseService;
+import com.project.house.biz.service.RecommendService;
 import com.project.house.common.model.House;
 import com.project.house.common.model.User;
 import com.project.house.common.page.PageData;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 public class AgencyController {
@@ -20,6 +23,9 @@ public class AgencyController {
     @Autowired
     private HouseService houseService;
 
+    @Autowired
+    private RecommendService recommendService;
+
     @RequestMapping("/agency/agentList")
     public String agentList(ModelMap modelMap, Integer pageNum, Integer pageSize) {
         if (pageSize == null) {
@@ -27,6 +33,8 @@ public class AgencyController {
         }
         PageData<User> ps = agencyService.getAllAgent(pageNum, pageSize);
         modelMap.put("ps", ps);
+        List<House> recomHouses = recommendService.getHotHouse(3);
+        modelMap.put("recomHouses", recomHouses);
         return "user/agent/agentList";
     }
 
@@ -46,6 +54,8 @@ public class AgencyController {
         }
         modelMap.put("bindHouses", bindHouses.getList());
         modelMap.put("vo", vo);
+        List<House> recomHouses = recommendService.getHotHouse(3);
+        modelMap.put("recomHouses", recomHouses);
         return "user/agent/agentDetail";
 
     }

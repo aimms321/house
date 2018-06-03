@@ -1,7 +1,9 @@
 package com.project.house.web.controller;
 
 import com.google.common.collect.Lists;
+import com.project.house.biz.service.RecommendService;
 import com.project.house.biz.service.UserService;
+import com.project.house.common.model.House;
 import com.project.house.common.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,9 @@ public class HelloController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RecommendService recommendService;
+
     @GetMapping(path = "hello")
     public String hello(ModelMap modelMap) {
         List<User> users = userService.getUsers();
@@ -32,7 +37,9 @@ public class HelloController {
     }
 
     @GetMapping(path = "index")
-    public String index() {
+    public String index(ModelMap modelMap) {
+        List<House> recomHouses = recommendService.getLastest();
+        modelMap.put("recomHouses", recomHouses);
         return "homepage/index";
     }
 

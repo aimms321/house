@@ -46,7 +46,7 @@ public class FtpService {
             for (File file : fileList) {
                 fis = new FileInputStream(file);
                 ftpClient.storeFile(file.getName(), fis);
-                String filePath = path + "/" + file.getName();
+                String filePath = "/" + file.getName();
                 pathList.add(filePath);
             }
 

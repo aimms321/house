@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 public class House {
@@ -53,7 +54,7 @@ public class House {
     private String tags;
 
     //创建时间
-    private Long createTime;
+    private Date createTime;
 
     //城市ID
     private Long cityId;
@@ -346,13 +347,13 @@ public class House {
         this.tags = tags;
     }
 
-    public Long getCreateTime() {
+    public Date getCreateTime() {
         return this.createTime;
     }
 
     ;
 
-    public void setCreateTime(Long createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
